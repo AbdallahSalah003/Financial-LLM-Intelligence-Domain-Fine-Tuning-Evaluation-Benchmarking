@@ -1,0 +1,11 @@
+[project]
+name = "financial-llm-intelligence-domain-fine-tuning-evaluation-benchmarking"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "pydantic>=2.10,<3",
+    "rouge-score>=0.1.2,<1",
+    "sacrebleu>=2.5,<3",
+]
