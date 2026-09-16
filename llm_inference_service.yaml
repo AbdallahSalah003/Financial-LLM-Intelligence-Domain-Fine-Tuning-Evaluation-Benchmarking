@@ -13,7 +13,7 @@ spec:
     lora:
       adapters:
         - name: news-adapter
-          uri: hf://YOUR_USERNAME/YOUR_LORA_REPO
+          uri: hf://abdallahsalah0/qwen25-1.5b-arafinnews-lora
 
   replicas: 1
 
