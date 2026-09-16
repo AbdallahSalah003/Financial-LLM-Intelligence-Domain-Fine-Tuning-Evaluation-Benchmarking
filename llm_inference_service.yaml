@@ -1,0 +1,53 @@
+apiVersion: serving.kserve.io/v1alpha1
+kind: LLMInferenceService
+
+metadata:
+  name: qwen-news
+  namespace: llm
+
+spec:
+  model:
+    uri: hf://Qwen/Qwen2.5-1.5B-Instruct
+    name: Qwen/Qwen2.5-1.5B-Instruct
+
+    lora:
+      adapters:
+        - name: news-adapter
+          uri: hf://YOUR_USERNAME/YOUR_LORA_REPO
+
+  replicas: 1
+
+  template:
+
+    containers:
+
+      - name: main
+
+        image: vllm/vllm-openai:latest
+
+        resources:
+          limits:
+            nvidia.com/gpu: "1"
+            cpu: "4"
+            memory: "12Gi"
+
+        env:
+          - name: HF_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: huggingface-token
+                key: token
+
+        args:
+          - "--max-model-len"
+          - "2048"
+          - "--gpu-memory-utilization"
+          - "0.87"
+          - "--enable-lora"
+          - "--max-lora-rank"
+          - "16"
+
+  router:
+    gateway: {}
+    route: {}
+    scheduler: {}
