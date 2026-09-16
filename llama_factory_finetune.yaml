@@ -1,0 +1,52 @@
+
+### model
+model_name_or_path: Qwen/Qwen2.5-1.5B-Instruct
+trust_remote_code: true
+
+### method
+stage: sft
+do_train: true
+finetuning_type: lora
+lora_rank: 16
+lora_target: all
+
+### dataset
+dataset: news_finetune_train
+eval_dataset: news_finetune_val
+template: qwen
+cutoff_len: 3500
+# max_samples: 50
+overwrite_cache: true
+preprocessing_num_workers: 8
+
+### output
+# resume_from_checkpoint: 
+output_dir: /kaggle/working/qwen25-1.5b-arafinnews-lora/
+logging_steps: 5
+save_steps: 100
+plot_loss: true
+overwrite_output_dir: true
+
+### train
+per_device_train_batch_size: 1
+gradient_accumulation_steps: 4
+learning_rate: 1.0e-4
+num_train_epochs: 3.0
+lr_scheduler_type: cosine
+warmup_ratio: 0.1
+bf16: true
+ddp_timeout: 180000000
+
+### eval
+# val_size: 0.1
+per_device_eval_batch_size: 1
+eval_strategy: steps
+eval_steps: 20
+
+report_to: wandb
+run_name: news-finetune-llamafactory-2
+
+push_to_hub: true
+export_hub_model_id: "abdallahsalah0/qwen2.5-1.5b-arafinnews-lora"
+hub_private_repo: false
+hub_strategy: checkpoint
